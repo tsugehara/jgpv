@@ -1,0 +1,3 @@
+pv.ts
+--out ../js/pv.js
+--declaration

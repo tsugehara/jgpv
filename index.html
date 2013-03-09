@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>PN</title>
+<script type="text/javascript" src="js/jgame.js"></script>
+<script type="text/javascript" src="js/pv.js"></script>
+<script type="text/javascript" src="js/jquery-1.8.3.js"></script>
+<script type="text/javascript">
+function attach_event() {
+	$("input[name='point']").change(function() {
+		if (! $(this).val()) {
+			if (! $(this).parent().find("input[name='value']").val()) {
+				if ($(".input").length > 2) {
+					$(this).parent().remove();
+				}
+			}
+		}
+	});
+	$("input[name='value']").change(function() {
+		if (! $(this).val()) {
+			if (! $(this).parent().find("input[name='point']").val()) {
+				if ($(".input").length > 2) {
+					$(this).parent().remove();
+				}
+			}
+		}
+	});
+}
+$(function() {
+	attach_event();
+	$("#add_button").click(function() {
+		$(".input:last").clone().insertBefore($(".control"));
+		attach_event();
+	});
+	$("#calc_button").click(function() {
+		var pv = new jgpv.PV();
+		var p = $("input[name='point']");
+		var v = $("input[name='value']");
+		var e = $("select[name='easing']");
+		for (var i=0; i<p.length; i++) {
+			pv.add(
+				parseInt(p[i].value),
+				parseInt(v[i].value),
+				e[i].value ? eval(e[i].value) : undefined
+			);
+		}
+		var text = [];
+		var start = pv.getStartPoint();
+		var end = pv.getEndPoint();
+		for (var i=start; i<=end; i++)
+			text.push(i+":"+pv.get(i));
+		var canvas = pv.createDebugCanvas();
+		$("#canvas").html("").append(canvas);
+		$("#test").html(text.join("\n"));
+	});
+});
+</script>
+</head>
+<body>
+<div class="input">
+	P<input type="text" name="point" value="1" />
+	V<input type="text" name="value" value="0" />
+	E<select name="easing"><option></option><option>Easing.LINEAR</option>
+<option>Easing.SWING</option>
+<option>Easing.QUAD_EASEIN</option>
+<option>Easing.QUAD_EASEOUT</option>
+<option>Easing.QUAD_EASEINOUT</option>
+<option>Easing.CUBIC_EASEIN</option>
+<option>Easing.CUBIC_EASEOUT</option>
+<option>Easing.CUBIC_EASEINOUT</option>
+<option>Easing.QUART_EASEIN</option>
+<option>Easing.QUART_EASEOUT</option>
+<option>Easing.QUART_EASEINOUT</option>
+<option>Easing.QUINT_EASEIN</option>
+<option>Easing.QUINT_EASEOUT</option>
+<option>Easing.QUINT_EASEINOUT</option>
+<option>Easing.SIN_EASEIN</option>
+<option>Easing.SIN_EASEOUT</option>
+<option>Easing.SIN_EASEINOUT</option>
+<option>Easing.CIRC_EASEIN</option>
+<option>Easing.CIRC_EASEOUT</option>
+<option>Easing.CIRC_EASEINOUT</option>
+<option>Easing.ELASTIC_EASEIN</option>
+<option>Easing.ELASTIC_EASEOUT</option>
+<option>Easing.ELASTIC_EASEINOUT</option>
+<option>Easing.BOUNCE_EASEOUT</option>
+<option>Easing.BOUNCE_EASEIN</option>
+<option>Easing.BOUNCE_EASEINOUT</option>
+<option>Easing.BACK_EASEIN</option>
+<option>Easing.BACK_EASEOUT</option>
+<option>Easing.BACK_EASEINOUT</option>
+<option>Easing.EXPO_EASEIN</option>
+<option>Easing.EXPO_EASEOUT</option>
+<option>Easing.EXPO_EASEINOUT</option></select>
+</div>
+<div class="input">
+	P<input type="text" name="point" value="100" />
+	V<input type="text" name="value" value="100" />
+	E<select name="easing"><option></option><option>Easing.LINEAR</option>
+<option>Easing.SWING</option>
+<option>Easing.QUAD_EASEIN</option>
+<option>Easing.QUAD_EASEOUT</option>
+<option>Easing.QUAD_EASEINOUT</option>
+<option>Easing.CUBIC_EASEIN</option>
+<option>Easing.CUBIC_EASEOUT</option>
+<option>Easing.CUBIC_EASEINOUT</option>
+<option>Easing.QUART_EASEIN</option>
+<option>Easing.QUART_EASEOUT</option>
+<option>Easing.QUART_EASEINOUT</option>
+<option>Easing.QUINT_EASEIN</option>
+<option>Easing.QUINT_EASEOUT</option>
+<option>Easing.QUINT_EASEINOUT</option>
+<option>Easing.SIN_EASEIN</option>
+<option>Easing.SIN_EASEOUT</option>
+<option>Easing.SIN_EASEINOUT</option>
+<option>Easing.CIRC_EASEIN</option>
+<option>Easing.CIRC_EASEOUT</option>
+<option>Easing.CIRC_EASEINOUT</option>
+<option>Easing.ELASTIC_EASEIN</option>
+<option>Easing.ELASTIC_EASEOUT</option>
+<option>Easing.ELASTIC_EASEINOUT</option>
+<option>Easing.BOUNCE_EASEOUT</option>
+<option>Easing.BOUNCE_EASEIN</option>
+<option>Easing.BOUNCE_EASEINOUT</option>
+<option>Easing.BACK_EASEIN</option>
+<option>Easing.BACK_EASEOUT</option>
+<option>Easing.BACK_EASEINOUT</option>
+<option>Easing.EXPO_EASEIN</option>
+<option>Easing.EXPO_EASEOUT</option>
+<option>Easing.EXPO_EASEINOUT</option></select>
+</div>
+<div class="control">
+	<input type="button" value="add" id="add_button" />
+	<input type="button" value="calc" id="calc_button" />
+</div>
+<div id="canvas" style="float:left">
+</div>
+<div style="float:left">
+	<pre id="test"></pre>
+</div>
+<div style="clear:both"></div>
+</body>
+</html>
