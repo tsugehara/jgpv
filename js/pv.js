@@ -85,9 +85,10 @@ var jgpv;
             };
             var canvas = document.createElement("canvas");
             canvas.width = point.end - point.start + 1;
-            canvas.height = value.max - value.min + 1 + 50;
+            canvas.height = value.max - value.min + 1;
+            var m = value.max + canvas.height / 2;
+            canvas.height *= 2;
             var context = canvas.getContext("2d");
-            var m = value.max + 25;
             context.moveTo(point.start, m - this.get(point.start));
             for(var p = point.start + 1; p <= point.end; p++) {
                 context.lineTo(p, m - this.get(p));
