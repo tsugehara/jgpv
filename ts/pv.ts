@@ -10,7 +10,7 @@ module jgpv {
 		center:number;
 
 		constructor() {
-			this.pvs = new PointingValue[];
+			this.pvs = [];
 			for (var i=0; i<arguments.length; i++)
 				this.add(arguments[i]);
 		}

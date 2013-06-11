@@ -1,4 +1,4 @@
-module jgpv {
+declare module jgpv {
     interface PointingValue {
         point: number;
         value: number;
