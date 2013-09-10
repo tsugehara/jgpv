@@ -1,5 +1,4 @@
 pv.ts
 --out ../js/pv.js
 --declaration
---disallowbool
---disallowimportmodule
+--removeComments
